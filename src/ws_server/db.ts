@@ -1,7 +1,12 @@
-import { ExtendedWS, Room, User } from './types';
+import { ExtendedWS, Game, Room, RowShip, ShipMatrix, User } from './types';
 
 export class DB {
-  constructor(private _users: User[] = [], private _rooms: Room[] = [], private _connections: ExtendedWS[] = []) {}
+  constructor(
+    private _connections: ExtendedWS[] = [],
+    private _users: User[] = [],
+    private _rooms: Room[] = [],
+    private _games: Game[] = []
+  ) {}
 
   // USERS
   addUser(user: User) {
@@ -30,9 +35,9 @@ export class DB {
   }
 
   getConnectionByUserId(userId: number) {
-    const user = this._users.find((u) => u.userId === userId);
+    const connectionId = this._users.find((u) => u.userId === userId).connectionId;
 
-    return this.getConnectionByUserId(user.userId);
+    return this.getConnectionById(connectionId);
   }
 
   // ROOMS
@@ -68,5 +73,57 @@ export class DB {
     const roomUsers = this.getRoomById(roomId).users;
 
     return roomUsers.map((userId) => this.getUserById(userId));
+  }
+
+  // GAMES
+  addGame(gameId: number) {
+    this._games.push({
+      gameId,
+      players: [],
+    });
+  }
+
+  getGameById(gameId: number) {
+    return this._games.find((game) => game.gameId === gameId);
+  }
+
+  getGamePlayers(gameId: number) {
+    return this.getGameById(gameId).players;
+  }
+
+  addPlayerToGame(gameId: number, playerId: number) {
+    const game = this.getGameById(gameId);
+
+    game.players.push({
+      playerId,
+      ships: [],
+      rowShips: [],
+    });
+  }
+
+  addPlayerShips(gameId: number, playerId: number, shipMatrix: ShipMatrix) {
+    const game = this.getGameById(gameId);
+
+    game.players.forEach((player) => {
+      if ((player.playerId = playerId)) {
+        player.ships = shipMatrix;
+      }
+    });
+  }
+
+  addPlayerRowShips(gameId: number, playerId: number, rowShips: RowShip[]) {
+    const game = this.getGameById(gameId);
+
+    game.players.forEach((player) => {
+      if ((player.playerId = playerId)) {
+        player.rowShips = rowShips;
+      }
+    });
+  }
+
+  isGameReady(gameId: number) {
+    const game = this.getGameById(gameId);
+
+    return game.players.every((player) => player.ships.length);
   }
 }

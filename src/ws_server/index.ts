@@ -2,7 +2,7 @@ import { WebSocketServer } from 'ws';
 import { ExtendedWS, Request } from './types';
 import { DB } from './db';
 import { messageHandler } from './handlers/messageHandler';
-import {generateRandomNumber} from './helpers/generateRandomNumber';
+import { generateRandomNumber } from './helpers/generateRandomNumber';
 
 const PORT = process.env.WS_PORT || 3000;
 
@@ -19,7 +19,7 @@ wss.on('connection', function connection(ws: ExtendedWS) {
     try {
       const req = JSON.parse(data.toString()) as Request;
       messageHandler(req, ws, db);
-    } catch(e) {
+    } catch (e) {
       console.log(e);
       ws.send(JSON.stringify('Data should be in JSON format'));
       ws.close();

@@ -22,7 +22,7 @@ export type AddUserRequest = {
   id: number;
 };
 
-export type Ship = {
+export type RowShip = {
   position: {
     x: number;
     y: number;
@@ -36,7 +36,7 @@ export type AddShipsRequest = {
   type: 'add_ships';
   data: {
     gameId: number;
-    ships: Ship[];
+    ships: RowShip[];
     indexPlayer: number;
   };
   id: number;
