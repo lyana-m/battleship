@@ -25,7 +25,7 @@ wss.on('connection', function connection(ws: ExtendedWS) {
       ws.close();
     }
 
-    console.log('received: %s', data);
+    // console.log('received: %s', data);
   });
 
   console.log(`Start ws server on the ${PORT} port!`);

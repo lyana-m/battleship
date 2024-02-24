@@ -12,6 +12,6 @@ export const addShips = (data: AddShipsRequest['data'], ws: ExtendedWS, db: DB) 
   db.addPlayerRowShips(gameId, playerId, data.ships);
 
   if (db.isGameReady(gameId)) {
-    startGame(gameId, ws, db);
+    startGame(gameId, db);
   }
 };

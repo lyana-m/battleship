@@ -4,6 +4,22 @@ import { generateRandomNumber } from '../helpers/generateRandomNumber';
 import { updateRooms } from './updateRooms';
 
 export const registerUser = (userData: RegistrationRequest['data'], ws: ExtendedWS, db: DB) => {
+  if (db.getUserByName(userData.name)) {
+    ws.send(
+      JSON.stringify({
+        type: 'reg',
+        data: JSON.stringify({
+          name: userData.name,
+          index: -1,
+          error: true,
+          errorText: `User with name ${userData.name} is already authorized`,
+        }),
+        id: 0,
+      })
+    );
+    return;
+  }
+
   const newUser = {
     userId: generateRandomNumber(),
     name: userData.name,

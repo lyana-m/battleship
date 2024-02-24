@@ -13,8 +13,16 @@ export class DB {
     this._users.push(user);
   }
 
+  getUsers() {
+    return this._users;
+  }
+
   getUserById(userId: number) {
     return this._users.find((u) => u.userId === userId);
+  }
+
+  getUserByName(name: string) {
+    return this._users.find((u) => u.name === name);
   }
 
   getUserByConnectionId(connectionId: number) {
@@ -43,6 +51,10 @@ export class DB {
   // ROOMS
   createRoom(roomId: number) {
     this._rooms.push({ roomId, users: [] });
+  }
+
+  getRooms() {
+    return this._rooms;
   }
 
   getAvailableRooms() {
@@ -83,6 +95,10 @@ export class DB {
     });
   }
 
+  getGames() {
+    return this._games;
+  }
+
   getGameById(gameId: number) {
     return this._games.find((game) => game.gameId === gameId);
   }
@@ -105,7 +121,7 @@ export class DB {
     const game = this.getGameById(gameId);
 
     game.players.forEach((player) => {
-      if ((player.playerId = playerId)) {
+      if (player.playerId === playerId) {
         player.ships = shipMatrix;
       }
     });
@@ -115,7 +131,7 @@ export class DB {
     const game = this.getGameById(gameId);
 
     game.players.forEach((player) => {
-      if ((player.playerId = playerId)) {
+      if (player.playerId === playerId) {
         player.rowShips = rowShips;
       }
     });
@@ -125,5 +141,11 @@ export class DB {
     const game = this.getGameById(gameId);
 
     return game.players.every((player) => player.ships.length);
+  }
+
+  setCurrentPlayer(gameId: number, currentPlayerId: number) {
+    const game = this.getGameById(gameId);
+
+    game.currentPlayerId = currentPlayerId;
   }
 }
