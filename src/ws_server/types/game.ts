@@ -17,6 +17,7 @@ export type Player = {
 };
 
 export type Game = {
+  roomId: number;
   gameId: number;
   currentPlayerId?: number;
   players: Player[];

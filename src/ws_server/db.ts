@@ -87,9 +87,14 @@ export class DB {
     return roomUsers.map((userId) => this.getUserById(userId));
   }
 
+  deleteRoom(roomId: number) {
+    this._rooms = this._rooms.filter((room) => room.roomId !== roomId);
+  }
+
   // GAMES
-  addGame(gameId: number) {
+  addGame(gameId: number, roomId: number) {
     this._games.push({
+      roomId,
       gameId,
       players: [],
     });
@@ -105,6 +110,12 @@ export class DB {
 
   getGamePlayers(gameId: number) {
     return this.getGameById(gameId).players;
+  }
+
+  getPlayerById(gameId: number, playerId: number) {
+    const game = this.getGameById(gameId);
+
+    return game.players.find((player) => player.playerId === playerId);
   }
 
   addPlayerToGame(gameId: number, playerId: number) {
@@ -141,6 +152,12 @@ export class DB {
     const game = this.getGameById(gameId);
 
     return game.players.every((player) => player.ships.length);
+  }
+
+  isGameFinished(gameId: number, enemyId: number) {
+    const player = this.getPlayerById(gameId, enemyId);
+
+    return player.ships.every((ship) => ship.every((deck) => deck.state === 'killed'));
   }
 
   setCurrentPlayer(gameId: number, currentPlayerId: number) {

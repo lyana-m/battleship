@@ -5,7 +5,7 @@ export const createGame = (roomId: number, db: DB) => {
   const roomUsers = db.getUsersInRoom(roomId);
   const gameId = generateRandomNumber();
 
-  db.addGame(gameId);
+  db.addGame(gameId, roomId);
 
   roomUsers.forEach((user) => {
     db.addPlayerToGame(gameId, user.userId);
