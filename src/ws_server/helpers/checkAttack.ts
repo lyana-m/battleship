@@ -21,10 +21,6 @@ export const checkAttack = (matrix: ShipMatrix, x: number, y: number) => {
 
   const allDeckKilled = targetShipAfterAttack.every((deck) => deck.state === 'shot');
 
-  console.log('targetShip', targetShip);
-  console.log('targetShipAfterAttack', targetShipAfterAttack);
-  console.log('allDeckKilled', allDeckKilled);
-
   if (allDeckKilled) {
     const updatedShip = targetShipAfterAttack.map((deck) => ({ ...deck, state: 'killed' as ShipState }));
     ships[index] = updatedShip;

@@ -2,6 +2,7 @@ import { ExtendedWS, RegistrationRequest } from '../types';
 import { DB } from '../db';
 import { generateRandomNumber } from '../helpers/generateRandomNumber';
 import { updateRooms } from './updateRooms';
+import { updateWinners } from './updateWinners';
 
 export const registerUser = (userData: RegistrationRequest['data'], ws: ExtendedWS, db: DB) => {
   if (db.getUserByName(userData.name)) {
@@ -40,11 +41,15 @@ export const registerUser = (userData: RegistrationRequest['data'], ws: Extended
       id: 0,
     })
   );
-  console.log({type: 'reg', data: {
-    name: newUser.name,
-    index: newUser.userId,
-    error: false,
-    errorText: '',
-  }})
+  console.log({
+    type: 'reg',
+    data: {
+      name: newUser.name,
+      index: newUser.userId,
+      error: false,
+      errorText: '',
+    },
+  });
   updateRooms(db);
+  updateWinners(db);
 };

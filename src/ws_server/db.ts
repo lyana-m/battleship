@@ -1,11 +1,12 @@
-import { ExtendedWS, Game, Room, RowShip, ShipMatrix, User } from './types';
+import { ExtendedWS, Game, Room, RowShip, ShipMatrix, User, Winner } from './types';
 
 export class DB {
   constructor(
     private _connections: ExtendedWS[] = [],
     private _users: User[] = [],
     private _rooms: Room[] = [],
-    private _games: Game[] = []
+    private _games: Game[] = [],
+    private _winners: Winner[] = []
   ) {}
 
   // USERS
@@ -27,6 +28,29 @@ export class DB {
 
   getUserByConnectionId(connectionId: number) {
     return this._users.find((u) => u.connectionId === connectionId);
+  }
+
+  // WINNERS
+  getWinners() {
+    return this._winners;
+  }
+
+  addWinner(name: string) {
+    const winner = this._winners.find((w) => w.name === name);
+
+    if (winner) {
+      this._winners = this._winners.map((w) => {
+        if (w.name === name) {
+          return { ...w, wins: w.wins + 1 };
+        }
+        return w;
+      });
+    } else {
+      this._winners.push({
+        name,
+        wins: 1,
+      });
+    }
   }
 
   // CONNECTIONS

@@ -3,6 +3,7 @@ import { checkAttack } from '../helpers';
 import { AttackRequest, ExtendedWS } from '../types';
 import { finish } from './finish';
 import { turn } from './turn';
+import { updateWinners } from './updateWinners';
 
 export const attack = (data: AttackRequest['data'], ws: ExtendedWS, db: DB) => {
   const currentPlayer = db.getCurrentPlayer(data.gameId);
@@ -20,6 +21,9 @@ export const attack = (data: AttackRequest['data'], ws: ExtendedWS, db: DB) => {
   db.addPlayerShips(data.gameId, enemy.playerId, result.ships);
 
   if (db.isGameFinished(data.gameId, enemy.playerId)) {
+    const winner = db.getUserById(data.indexPlayer);
+    db.addWinner(winner.name);
+
     players.forEach((player) => {
       const connection = db.getConnectionByUserId(player.playerId);
 
@@ -42,6 +46,7 @@ export const attack = (data: AttackRequest['data'], ws: ExtendedWS, db: DB) => {
     });
 
     finish(data.gameId, data.indexPlayer, db);
+    updateWinners(db);
   } else {
     db.setCurrentPlayer(data.gameId, enemy.playerId);
 
