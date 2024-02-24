@@ -1,10 +1,11 @@
-import { AddShipsRequest, AddUserRequest, AttackRequest, ExtendedWS, RegistrationRequest, Request } from '../types';
+import { AddShipsRequest, AddUserRequest, AttackRequest, ExtendedWS, RandomAttackRequest, RegistrationRequest, Request } from '../types';
 import { registerUser } from './registration';
 import { DB } from '../db';
 import { createRoom } from './createRoom';
 import { addUserToRoom } from './addUserToRoom';
 import { addShips } from './addShips';
 import { attack } from './attack';
+import { randomAttack } from './randomAttack';
 
 export const messageHandler = (req: Request, ws: ExtendedWS, db: DB) => {
   switch (req.type) {
@@ -26,6 +27,10 @@ export const messageHandler = (req: Request, ws: ExtendedWS, db: DB) => {
 
     case 'attack':
       attack(JSON.parse(req.data) as AttackRequest['data'], ws, db);
+      break;
+
+    case 'randomAttack':
+      randomAttack(JSON.parse(req.data) as RandomAttackRequest['data'], ws, db);
       break;
   }
 };

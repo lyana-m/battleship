@@ -52,3 +52,12 @@ export type AttackRequest = {
   };
   id: number;
 };
+
+export type RandomAttackRequest = {
+  type: 'randomAttack';
+  data: {
+    gameId: number;
+    indexPlayer: number;
+  };
+  id: number;
+};
