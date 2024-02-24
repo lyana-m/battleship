@@ -148,4 +148,10 @@ export class DB {
 
     game.currentPlayerId = currentPlayerId;
   }
+
+  getCurrentPlayer(gameId: number) {
+    const game = this.getGameById(gameId);
+
+    return game.currentPlayerId;
+  }
 }

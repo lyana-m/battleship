@@ -1,14 +1,14 @@
 import { DB } from '../db';
-import { convertShipsToMatrix } from '../helpers/convertShipsToMatrix';
+import {convertRowShips} from '../helpers';
 import { AddShipsRequest, ExtendedWS } from '../types';
 import { startGame } from './startGame';
 
 export const addShips = (data: AddShipsRequest['data'], ws: ExtendedWS, db: DB) => {
   const gameId = data.gameId;
-  const shipMatrix = convertShipsToMatrix(data.ships);
+  const ships = convertRowShips(data.ships);
   const playerId = db.getUserByConnectionId(ws.connectionId).userId;
 
-  db.addPlayerShips(gameId, playerId, shipMatrix);
+  db.addPlayerShips(gameId, playerId, ships);
   db.addPlayerRowShips(gameId, playerId, data.ships);
 
   if (db.isGameReady(gameId)) {

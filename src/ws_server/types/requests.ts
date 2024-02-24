@@ -41,3 +41,14 @@ export type AddShipsRequest = {
   };
   id: number;
 };
+
+export type AttackRequest = {
+  type: 'attack';
+  data: {
+    gameId: number;
+    x: number;
+    y: number;
+    indexPlayer: number;
+  };
+  id: number;
+};

@@ -2,9 +2,7 @@ import { DB } from '../db';
 
 export const turn = (gameId: number, db: DB) => {
   const players = db.getGamePlayers(gameId);
-  const currentPlayer = players[0].playerId;
-
-  db.setCurrentPlayer(gameId, currentPlayer);
+  const currentPlayer = db.getCurrentPlayer(gameId);
 
   players.forEach((player) => {
     const connection = db.getConnectionByUserId(player.playerId);

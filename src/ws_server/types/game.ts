@@ -1,8 +1,14 @@
 import { RowShip } from './requests';
 
-export type ShipState = 'shp' | 'emp' | 'wnd' | 'kld';
+export type ShipState = 'ship' | 'shot' | 'killed';
 
-export type ShipMatrix = ShipState[][];
+export type ShipMatrix = Ship[][];
+
+export type Ship = {
+  x: number;
+  y: number;
+  state: ShipState;
+}
 
 export type Player = {
   playerId: number; // userId
@@ -15,3 +21,5 @@ export type Game = {
   currentPlayerId?: number;
   players: Player[];
 };
+
+export type AttackResult = 'miss' | 'killed' | 'shot';
