@@ -6,8 +6,9 @@ export const checkAttack = (matrix: ShipMatrix, x: number, y: number) => {
 
   if (index === -1) {
     return {
-      attackResult: [{ x, y, state: 'miss' as ShipState }],
+      cells: [{ x, y, state: 'miss' as ShipState }],
       ships,
+      oneMoreAttack: false,
     };
   }
 
@@ -26,15 +27,17 @@ export const checkAttack = (matrix: ShipMatrix, x: number, y: number) => {
     ships[index] = updatedShip;
 
     return {
-      attackResult: updatedShip,
+      cells: updatedShip,
       ships,
+      oneMoreAttack: true,
     };
   } else {
     ships[index] = targetShipAfterAttack;
 
     return {
-      attackResult: [{ x, y, state: 'shot' }],
+      cells: [{ x, y, state: 'shot' }],
       ships,
+      oneMoreAttack: true,
     };
   }
 

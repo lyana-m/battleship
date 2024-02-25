@@ -27,17 +27,17 @@ export const attack = (data: AttackRequest['data'], ws: ExtendedWS, db: DB) => {
     players.forEach((player) => {
       const connection = db.getConnectionByUserId(player.playerId);
 
-      result.attackResult.forEach((r) => {
+      result.cells.forEach((cell) => {
         connection.send(
           JSON.stringify({
             type: 'attack',
             data: JSON.stringify({
               position: {
-                x: r.x,
-                y: r.y,
+                x: cell.x,
+                y: cell.y,
               },
               currentPlayer: data.indexPlayer,
-              status: r.state,
+              status: cell.state,
             }),
             id: 0,
           })
@@ -48,22 +48,22 @@ export const attack = (data: AttackRequest['data'], ws: ExtendedWS, db: DB) => {
     finish(data.gameId, data.indexPlayer, db);
     updateWinners(db);
   } else {
-    db.setCurrentPlayer(data.gameId, enemy.playerId);
+    db.setCurrentPlayer(data.gameId, result.oneMoreAttack ? data.indexPlayer : enemy.playerId);
 
     players.forEach((player) => {
       const connection = db.getConnectionByUserId(player.playerId);
 
-      result.attackResult.forEach((r) => {
+      result.cells.forEach((cell) => {
         connection.send(
           JSON.stringify({
             type: 'attack',
             data: JSON.stringify({
               position: {
-                x: r.x,
-                y: r.y,
+                x: cell.x,
+                y: cell.y,
               },
               currentPlayer: data.indexPlayer,
-              status: r.state,
+              status: cell.state,
             }),
             id: 0,
           })
