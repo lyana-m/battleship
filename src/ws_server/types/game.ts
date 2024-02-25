@@ -1,6 +1,6 @@
 import { RowShip } from './requests';
 
-export type ShipState = 'ship' | 'shot' | 'killed';
+export type ShipState = 'ship' | 'shot' | 'killed' | 'miss';
 
 export type ShipMatrix = Ship[][];
 
@@ -22,5 +22,3 @@ export type Game = {
   currentPlayerId?: number;
   players: Player[];
 };
-
-export type AttackResult = 'miss' | 'killed' | 'shot';

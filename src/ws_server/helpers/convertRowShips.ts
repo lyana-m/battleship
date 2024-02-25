@@ -1,7 +1,7 @@
-import { RowShip, ShipMatrix } from '../types';
+import { RowShip, Ship, ShipMatrix } from '../types';
 
-export const convertRowShips = (ships: RowShip[]): ShipMatrix => {
-  const shipMatrix = [];
+export const convertRowShips = (ships: RowShip[]) => {
+  const shipMatrix: ShipMatrix = [];
 
   for (let i = 0; i < ships.length; i++) {
     const ship = ships[i];
@@ -9,29 +9,29 @@ export const convertRowShips = (ships: RowShip[]): ShipMatrix => {
     const length = ship.length;
 
     if (ship.direction) {
-      const ship = [];
+      const shipArr: Ship[] = [];
       let y = start.y;
       while (y < start.y + length) {
-        ship.push({
+        shipArr.push({
           x: start.x,
           y,
           state: 'ship',
         });
         y++;
       }
-      shipMatrix.push(ship);
+      shipMatrix.push(shipArr);
     } else {
-      const ship = [];
+      const shipArr: Ship[] = [];
       let x = start.x;
       while (x < start.x + length) {
-        ship.push({
+        shipArr.push({
           x,
           y: start.y,
           state: 'ship',
         });
         x++;
       }
-      shipMatrix.push(ship);
+      shipMatrix.push(shipArr);
     }
   }
 

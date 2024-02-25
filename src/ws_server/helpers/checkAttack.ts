@@ -1,4 +1,5 @@
 import { ShipMatrix, ShipState } from '../types';
+import { getMissedCells } from './getMissedCells';
 
 export const checkAttack = (matrix: ShipMatrix, x: number, y: number) => {
   const ships = [...matrix];
@@ -25,9 +26,10 @@ export const checkAttack = (matrix: ShipMatrix, x: number, y: number) => {
   if (allDeckKilled) {
     const updatedShip = targetShipAfterAttack.map((deck) => ({ ...deck, state: 'killed' as ShipState }));
     ships[index] = updatedShip;
+    const missedCells = getMissedCells(updatedShip);
 
     return {
-      cells: updatedShip,
+      cells: [...updatedShip, ...missedCells],
       ships,
       oneMoreAttack: true,
     };
@@ -40,15 +42,4 @@ export const checkAttack = (matrix: ShipMatrix, x: number, y: number) => {
       oneMoreAttack: true,
     };
   }
-
-  // const roundCells = [
-  //   {x: x, y: y - 1},
-  //   {x: x + 1, y: y - 1},
-  //   {x: x + 1, y: y},
-  //   {x: x + 1, y: y + 1},
-  //   {x: x, y: y + 1},
-  //   {x: x - 1, y: y + 1},
-  //   {x: x - 1, y: y},
-  //   {x: x - 1, y: y - 1},
-  // ]
 };
