@@ -5,6 +5,15 @@ export const updateWinners = (db: DB) => {
   const connections = db.getConnections();
 
   connections.forEach((connection) => {
-    connection.send(JSON.stringify({ type: 'update_winners', data: JSON.stringify(winners), id: 0 }));
+    connection.send(
+      JSON.stringify({
+        type: 'update_winners',
+        data: JSON.stringify(winners),
+        id: 0,
+      })
+    );
+
+    console.log('sent command: update_winners');
+    console.log('sent data:', winners);
   });
 };

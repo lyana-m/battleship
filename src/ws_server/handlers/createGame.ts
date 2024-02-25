@@ -11,12 +11,17 @@ export const createGame = (roomId: number, db: DB) => {
     db.addPlayerToGame(gameId, user.userId);
 
     const connection = db.getConnectionById(user.connectionId);
+    const responseData = { idGame: gameId, idPlayer: user.userId };
+
     connection.send(
       JSON.stringify({
         type: 'create_game',
-        data: JSON.stringify({ idGame: gameId, idPlayer: user.userId }),
+        data: JSON.stringify(responseData),
         id: 0,
       })
     );
+
+    console.log('sent command: create_game');
+    console.log('sent data:', responseData);
   });
 };

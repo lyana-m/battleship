@@ -28,20 +28,24 @@ export const attack = (data: AttackRequest['data'], ws: ExtendedWS, db: DB) => {
       const connection = db.getConnectionByUserId(player.playerId);
 
       result.cells.forEach((cell) => {
+        const responseData = {
+          position: {
+            x: cell.x,
+            y: cell.y,
+          },
+          currentPlayer: data.indexPlayer,
+          status: cell.state,
+        };
         connection.send(
           JSON.stringify({
             type: 'attack',
-            data: JSON.stringify({
-              position: {
-                x: cell.x,
-                y: cell.y,
-              },
-              currentPlayer: data.indexPlayer,
-              status: cell.state,
-            }),
+            data: JSON.stringify(responseData),
             id: 0,
           })
         );
+
+        console.log('sent command: attack');
+        console.log('sent data:', responseData);
       });
     });
 
@@ -54,20 +58,25 @@ export const attack = (data: AttackRequest['data'], ws: ExtendedWS, db: DB) => {
       const connection = db.getConnectionByUserId(player.playerId);
 
       result.cells.forEach((cell) => {
+        const responseData = {
+          position: {
+            x: cell.x,
+            y: cell.y,
+          },
+          currentPlayer: data.indexPlayer,
+          status: cell.state,
+        };
+
         connection.send(
           JSON.stringify({
             type: 'attack',
-            data: JSON.stringify({
-              position: {
-                x: cell.x,
-                y: cell.y,
-              },
-              currentPlayer: data.indexPlayer,
-              status: cell.state,
-            }),
+            data: JSON.stringify(responseData),
             id: 0,
           })
         );
+
+        console.log('sent command: attack');
+        console.log('sent data:', responseData);
       });
     });
 

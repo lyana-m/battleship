@@ -9,17 +9,21 @@ export const startGame = (gameId: number, db: DB) => {
 
   players.forEach((player) => {
     const connection = db.getConnectionByUserId(player.playerId);
+    const responseData = {
+      ships: player.rowShips,
+      currentPlayerIndex: player.playerId,
+    };
 
     connection.send(
       JSON.stringify({
         type: 'start_game',
-        data: JSON.stringify({
-          ships: player.rowShips,
-          currentPlayerIndex: player.playerId,
-        }),
+        data: JSON.stringify(responseData),
         id: 0,
       })
     );
+
+    console.log('sent command: start_game');
+    console.log('sent data:', responseData);
   });
 
   turn(gameId, db);
