@@ -30,6 +30,15 @@ export class DB {
     return this._users.find((u) => u.connectionId === connectionId);
   }
 
+  setUserConnectionId(userId: number, connectionId: number) {
+    this._users = this._users.map((user) => {
+      if (user.userId === userId) {
+        return { ...user, connectionId };
+      }
+      return user;
+    });
+  }
+
   // WINNERS
   getWinners() {
     return this._winners;
@@ -70,6 +79,16 @@ export class DB {
     const connectionId = this._users.find((u) => u.userId === userId).connectionId;
 
     return this.getConnectionById(connectionId);
+  }
+
+  closeConnection(connectionId: number) {
+    this._users = this._users.map((user) => {
+      if (user.connectionId === connectionId) {
+        return { ...user, connectionId: -1 };
+      }
+      return user;
+    });
+    this._connections = this._connections.filter((c) => c.connectionId !== connectionId);
   }
 
   // ROOMS

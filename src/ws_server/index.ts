@@ -35,8 +35,6 @@ wss.on('connection', function connection(ws: ExtendedWS) {
       ws.send(JSON.stringify('Data should be in JSON format'));
       ws.close();
     }
-
-
   });
 
   ws.on('error', (error: Error) => {
@@ -45,6 +43,7 @@ wss.on('connection', function connection(ws: ExtendedWS) {
   });
 
   ws.on('close', () => {
+    db.closeConnection(ws.connectionId);
     console.log(`Ws connection with id ${ws.connectionId} has been closed`);
   });
 
