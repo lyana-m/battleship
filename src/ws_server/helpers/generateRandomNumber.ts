@@ -1,1 +1,1 @@
-export const generateRandomNumber = (multiplier = 100) => Math.floor(Math.random() *  multiplier);
+export const generateRandomNumber = (multiplier = 10000) => Math.floor(Math.random() *  multiplier);
