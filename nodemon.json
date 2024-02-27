@@ -1,0 +1,6 @@
+{
+  "watch": ["src"],
+  "ext": "ts",
+  "exec": "node --experimental-modules --loader ts-node/esm index.ts",
+  "ignore": ["src/**/*.test.ts"]
+}
